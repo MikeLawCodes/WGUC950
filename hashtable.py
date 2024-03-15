@@ -1,5 +1,6 @@
 # Class for HashTable
 
-class Packages:
+class HashTable:
     def __init__(self, capacity = 10):
+
 
