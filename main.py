@@ -1,15 +1,24 @@
 import csv
-import hashtable
-from package import load_package_data
 
-# Read the package information
-with open("data/Packages.csv") as packageCSV:
-    packageData = csv.reader(packageCSV)
-    packageData = list(packageData)
+with open("data/Distance.csv") as distance_csv:
+    distance_data = csv.reader(distance_csv)
+    distance_data = list(distance_data)
 
 
-# code for testing
-ht = hashtable.HashTable()
-load_package_data("data/Packages.csv", ht)
-print(ht)
-print(ht.search('18'))
+def travel_distance(x_value, y_value):
+    distance = distance_data[x_value][y_value]
+    if distance == '':
+        distance = distance_data[y_value][x_value]
+
+    return float(distance)
+
+
+with open("data/Address.csv") as address_csv:
+    address_data = csv.reader(address_csv)
+    address_data = list(address_data)
+
+
+def extract_address(address):
+    for row in address_data:
+        if address in row[2]:
+            return int(row[0])
