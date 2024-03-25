@@ -1,6 +1,8 @@
 import csv
 
 
+# Constructor class for package object
+
 class Package:
     def __init__(self, ID, address, city, state, zipcode, deadline, kilos, notes):
         self.ID = ID
@@ -14,14 +16,15 @@ class Package:
         self.departure_time = None
         self.arrival_time = None
 
+    # function for formatting the package object as strings
     def __str__(self):
         return "%s, %s, %s, %s, %s, %s, %s, %s, %s %s" % (self.ID, self.address, self.city, self.state, self.zipcode,
                                                           self.deadline, self.kilos, self.notes, self.departure_time,
                                                           self.arrival_time)
 
 
-# Function for populating hashtable with Package data and creating objects from that data
-def load_package_data(filename, ht):
+ # Function for populating hashtable with Package data and creating objects from that data
+ def load_package_data(filename, ht):
     with open(filename, encoding='utf-8-sig') as package_CSV:
         package_data = csv.reader(package_CSV, delimiter=',')
 
