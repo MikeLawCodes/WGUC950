@@ -1,17 +1,28 @@
 # Creating a Class for the trucks
+from datetime import timedelta
+
+import csv
+
+import hashtable
+from package import load_package_data
+
+
 class Truck:
-    def __init__(self, capacity, speed, load, packages, mileage, address, departure_time):
+    max_capacity = 16
+    avg_speed = 18
+
+    def __init__(self, truck_id, capacity, speed, start_time):
+        self.truck_id = truck_id
         self.capacity = capacity
         self.speed = speed
-        self.load = load
-        self.packages = packages
-        self.mileage = mileage
-        self.address = address
-        self.departure_time = departure_time
+        self.packages = []
+        self.mileage = 0
+        self.hub_address = "4001 South 700 East (84107)"
+        self.time_object = start_time
 
-# Allows class to be read as a string
+    # Allows class to be read as a string
     def __str__(self):
-        return "%s, %s, %s, %s, %s, %s, %s" % (self.capacity, self.speed, self.load, self.packages, self.mileage,
-                                               self.address, self.departure_time)
+        return "%s, %s, %s, %s, %s, %s, %s" % (self.truck_id, self.capacity, self.speed, self.packages, self.mileage,
+                                               self.hub_address, self.time_object)
 
 
