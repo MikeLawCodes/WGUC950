@@ -1,4 +1,3 @@
-
 # Class for creating Hash Table data structure
 class HashTable:
     # Initialize the list and set the capacity to 20 and the number of items added to 0
@@ -65,7 +64,7 @@ class HashTable:
         if index is not None:
             del self.list[bucket][index]
 
-    # function to format and print the hashtable as buckets with its index and values
+    # function to format and print the hashtable as a list of buckets with its index and values
     def __str__(self):
         s = "   --------\n"
         for index, item in enumerate(self.list):
@@ -73,3 +72,8 @@ class HashTable:
             s += str(index) + value.center(6) + '\n'
         s += "   --------"
         return s
+
+# C950 - Webinar-1 - Let’s Go Hashing
+# W-1_ChainingHashTable_zyBooks_Key-Value.py
+# Ref: zyBooks: Figure 7.8.2: Hash table using chaining.
+# Pulled some repeating code out into own functions and added self adjusting rehash functions and checks
