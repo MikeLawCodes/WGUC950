@@ -22,9 +22,10 @@ class Package:
                                                           self.deadline, self.kilos, self.notes, self.departure_time,
                                                           self.arrival_time)
 
+    # Function for populating hashtable with Package data and creating objects from that data
 
- # Function for populating hashtable with Package data and creating objects from that data
- def load_package_data(filename, ht):
+
+def load_package_data(filename, ht):
     with open(filename, encoding='utf-8-sig') as package_CSV:
         package_data = csv.reader(package_CSV, delimiter=',')
 
@@ -42,3 +43,7 @@ class Package:
                         pkilos, pnotes)
 
             ht.insert(pid, p)
+
+# C950 - Webinar-1 - Let’s Go Hashing
+# W-1_ChainingHashTable_zyBooks_Key-Value.py
+# Ref: zyBooks: Figure 7.8.2: Hash table using chaining.
