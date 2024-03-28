@@ -1,6 +1,5 @@
 import csv
 
-from hashtable import HashTable
 from package import ShippingStatus, Package
 
 

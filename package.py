@@ -26,8 +26,8 @@ class Package:
     def __str__(self):
         return "%s, %s, %s, %s, %s, %s, %s, %s, %s %s %s" % (
             self.package_id, self.package_address, self.city, self.state, self.zipcode,
-            self.deadline, self.kilos, self.status, self.departure_time,
-            self.arrival_time, self.status)
+            self.deadline, self.kilos, self.status, self.departure_time, self.in_transit_time,
+            self.arrival_time,)
 
 
 # TODO
@@ -37,5 +37,5 @@ class Package:
 # enumeration for packages_on_truck status
 class ShippingStatus(Enum):
     DELIVERED = "DELIVERED"
-    IN_PROGRESS = "IN_PROGRESS"
+    ON_TRUCK = "ON_TRUCK"
     AT_HUB = "AT_HUB"
