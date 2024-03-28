@@ -1,7 +1,7 @@
 # Class for creating Hash Table data structure
 class HashTable:
     # Initialize the list and set the capacity to 20 and the number of items added to 0
-    def __init__(self, initial_capacity=10):
+    def __init__(self, initial_capacity=20):
         self.list = [[] for _ in range(initial_capacity)]  # creates a list of empty lists
         self.num_items = 0
 
@@ -48,7 +48,7 @@ class HashTable:
 
     # function to search and return the value for a given key
     # the return value is None if key is not found, else value corresponding to the key
-    def search(self, key):
+    def lookup(self, key):
         bucket = self.compute_hash(key)
         bucket_list = self.list[bucket]
         for kv in bucket_list:
