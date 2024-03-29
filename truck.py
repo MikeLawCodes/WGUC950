@@ -24,14 +24,14 @@ class Truck:
                                                self.mileage, self.truck_address, self.departure_time)
 
 
-def load_truck(self, ht):
-    packages_on_truck = []
-    pID = package.package_id
-    if len(self.packages_on_truck) < self.capacity:
-        self.packages_on_truck.append(ht.lookup(pID))
-        return packages_on_truck
-    else:
-        return False
+#def load_truck(self, ht):
+#    packages_on_truck = []
+#    pID = package.package_id
+#    if len(self.packages_on_truck) < self.capacity:
+#        self.packages_on_truck.append(ht.lookup(pID))
+#        return packages_on_truck
+#    else:
+#        return False
 
 
 def set_packages_in_progress(self, package_hash_table):
