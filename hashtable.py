@@ -1,4 +1,4 @@
-# Class for creating Hash Table data structure
+# Class for creating self adjusting Hash Table data structure
 class HashTable:
     # Initialize the list and set the capacity to 20 and the number of items added to 0
     def __init__(self, initial_capacity=20):

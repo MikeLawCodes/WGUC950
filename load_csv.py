@@ -25,7 +25,7 @@ def load_package_data(filename, package_hash_table):
         package_data = csv.reader(package_CSV, delimiter=',')
 
         for package in package_data:
-            package_id = package[0]
+            package_id = int(package[0])
             package_address = package[1]
             city = package[2]
             state = package[3]
@@ -40,4 +40,4 @@ def load_package_data(filename, package_hash_table):
 
             # inserts packages_on_truck objects into hashtable
             package_hash_table.insert(package_id, p)
-        # return ht
+        return package_hash_table
