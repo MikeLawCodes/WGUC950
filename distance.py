@@ -16,11 +16,11 @@ def get_address_index(address):
 def get_distance(address_x, address_y):
     if isinstance(address_x, str):
         index_x = int(get_address_index(address_x))
-    else:
+    elif isinstance(address_x, int):
         index_x = int(address_x)
     if isinstance(address_y, str):
         index_y = int(get_address_index(address_y))
-    else:
+    elif isinstance(address_y, int):
         index_y = int(address_y)
 
     distance = distance_data[index_x][index_y]
