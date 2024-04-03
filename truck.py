@@ -7,7 +7,7 @@ class Truck:
         self.speed = 18
         self.packages_on_truck = []
         self.mileage = 0
-        self.truck_address = "4001 South 700 East (84107)"
+        self.truck_address = "4001 South 700 East"
         self.curr_time = start_time
         self.departure_time = start_time
 

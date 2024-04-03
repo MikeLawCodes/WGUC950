@@ -1,9 +1,10 @@
 # Name: Michael Lawrence
 # Email: Mlaw101@wgu.edu
 # Student ID: 002680987
+
 import datetime
 
-from distance import get_distance
+# from distance import get_distance, get_address_index
 from hashtable import HashTable
 from load_csv import load_distance_data, load_address_data, load_package_data
 import truck
@@ -12,16 +13,44 @@ import truck
 address_data = load_address_data()
 distance_data = load_distance_data()
 
+
+# method for returning the index of an address
+def get_address_index(address):
+    for row in address_data:
+        if address in row[2]:
+            return int(row[0])
+    raise ValueError(f"Address {address} was not found in address_data")
+
+
+# method for getting the distance between two addresses using either their address string or index
+def get_distance(address_x, address_y):
+    if isinstance(address_x, str):
+        index_x = int(get_address_index(address_x))
+    elif isinstance(address_x, int):
+        index_x = int(address_x)
+    else:
+        raise ValueError(f"address_x should be an integer or string type, got {type(address_x)}")
+    if isinstance(address_y, str):
+        index_y = int(get_address_index(address_y))
+    elif isinstance(address_y, int):
+        index_y = int(address_y)
+    else:
+        raise ValueError(f"address_y should be an integer or string type, got {type(address_y)}")
+    distance = distance_data[index_x][index_y]
+    if distance == '':
+        distance = distance_data[index_y][index_x]
+    return float(distance)
+
+
 package_hash_table = HashTable()
 load_package_data("data/Packages.csv", package_hash_table)
-# print(package_hash_table.lookup('1'))
+print(package_hash_table.lookup('1'))
 
-# print(address_data)
-#
-# print(get_distance(2,6))
-# print(get_distance("1330 2100 S (84106)", "2010 W 500 S (84104)"))
-# print(get_distance("2010 W 400 S (84104)", "1330 2100 S (84106)"))
+print(address_data)
 
+print(get_distance(2, 6))
+print(get_distance("1330 2100 S", "2010 W 500 S"))
+print(get_distance("2010 W 500 S", "1330 2100 S"))
 
 first_truck = truck.Truck(1, datetime.timedelta(hours=8))
 first_truck.packages_on_truck = [13, 14, 15, 16, 19, 20, 29, 30, 31, 34, 35, 37, 40]
@@ -42,12 +71,11 @@ def package_delivery(truck):
     truck.packages_on_truck.clear()
 
     while len(not_delivered) > 0:
-        next_address = 2000
-        next_package = None
-        for package in not_delivered:
-            if get_distance(truck.truck_address, package.package_address) <= next_address:
-                next_address = get_distance(truck.truck_address, package.package_address)
-                next_package = package
+        # using min function with key parameter to get the package with smaller distance.
+        next_package = min(not_delivered,
+                           key=lambda package: get_distance(truck.truck_address, package.package_address))
+        next_address = get_distance(truck.truck_address, next_package.package_address)
+
         truck.packages_on_truck.append(next_package.package_id)
         not_delivered.remove(next_package)
         truck.mileage += next_address
