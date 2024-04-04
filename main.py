@@ -3,54 +3,25 @@
 # Student ID: 002680987
 
 import datetime
-
-# from distance import get_distance, get_address_index
+from distance import get_distance
 from hashtable import HashTable
 from load_csv import load_distance_data, load_address_data, load_package_data
 import truck
 
-# load data into variables using functions from load_csv
+# load data into variables and hash table using functions from load_csv
 address_data = load_address_data()
 distance_data = load_distance_data()
-
-
-# method for returning the index of an address
-def get_address_index(address):
-    for row in address_data:
-        if address in row[2]:
-            return int(row[0])
-    raise ValueError(f"Address {address} was not found in address_data")
-
-
-# method for getting the distance between two addresses using either their address string or index
-def get_distance(address_x, address_y):
-    if isinstance(address_x, str):
-        index_x = int(get_address_index(address_x))
-    elif isinstance(address_x, int):
-        index_x = int(address_x)
-    else:
-        raise ValueError(f"address_x should be an integer or string type, got {type(address_x)}")
-    if isinstance(address_y, str):
-        index_y = int(get_address_index(address_y))
-    elif isinstance(address_y, int):
-        index_y = int(address_y)
-    else:
-        raise ValueError(f"address_y should be an integer or string type, got {type(address_y)}")
-    distance = distance_data[index_x][index_y]
-    if distance == '':
-        distance = distance_data[index_y][index_x]
-    return float(distance)
-
-
 package_hash_table = HashTable()
 load_package_data("data/Packages.csv", package_hash_table)
-print(package_hash_table.lookup('1'))
 
-print(address_data)
-
-print(get_distance(2, 6))
-print(get_distance("1330 2100 S", "2010 W 500 S"))
-print(get_distance("2010 W 500 S", "1330 2100 S"))
+# TODO Delete this test code when finished with project
+# print(package_hash_table.lookup('1'))
+#
+# print(address_data)
+#
+# print(get_distance(2, 6))
+# print(get_distance("1330 2100 S", "2010 W 500 S"))
+# print(get_distance("2010 W 500 S", "1330 2100 S"))
 
 first_truck = truck.Truck(1, datetime.timedelta(hours=8))
 first_truck.packages_on_truck = [13, 14, 15, 16, 19, 20, 29, 30, 31, 34, 35, 37, 40]
@@ -62,27 +33,27 @@ third_truck = truck.Truck(3, datetime.timedelta(hours=9, minutes=5))
 third_truck.packages_on_truck = [1, 4, 5, 6, 7, 8, 9, 10, 11, 25, 26, 27, 28, 33, 35]
 
 
-def package_delivery(truck):
+def package_delivery(truck_object):
     not_delivered = []
-    for package_id in truck.packages_on_truck:
+    for package_id in truck_object.packages_on_truck:
         package = package_hash_table.lookup(package_id)
         # print(package)
         not_delivered.append(package)
-    truck.packages_on_truck.clear()
+    truck_object.packages_on_truck.clear()
 
     while len(not_delivered) > 0:
         # using min function with key parameter to get the package with smaller distance.
         next_package = min(not_delivered,
-                           key=lambda package: get_distance(truck.truck_address, package.package_address))
-        next_address = get_distance(truck.truck_address, next_package.package_address)
+                           key=lambda package: get_distance(truck_object.truck_address, package.package_address))
+        next_address = get_distance(truck_object.truck_address, next_package.package_address)
 
-        truck.packages_on_truck.append(next_package.package_id)
+        truck_object.packages_on_truck.append(next_package.package_id)
         not_delivered.remove(next_package)
-        truck.mileage += next_address
-        truck.truck_address = next_package.package_address
-        truck.curr_time += datetime.timedelta(hours=next_address / truck.speed)
-        next_package.arrival_time = truck.curr_time
-        next_package.departure_time = truck.departure_time
+        truck_object.mileage += next_address
+        truck_object.truck_address = next_package.package_address
+        truck_object.curr_time += datetime.timedelta(hours=next_address / truck_object.speed)
+        next_package.arrival_time = truck_object.curr_time
+        next_package.departure_time = truck_object.departure_time
 
 
 package_delivery(first_truck)
