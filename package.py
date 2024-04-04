@@ -23,8 +23,6 @@ class Package:
             self.deadline, self.kilos, self.status.name, self.departure_time, self.in_transit_time,
             self.arrival_time,)
 
-    # TODO
-    # convert_time = datetime.timedelta(hours=int(h), minutes=int(m), seconds=int(s))
 
     def update_status(self, convert_timedelta):
         if self.arrival_time < convert_timedelta:

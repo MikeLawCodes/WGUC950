@@ -105,6 +105,7 @@ class Main:
             # The user will be asked to enter a specific time
             user_time = input("Please enter a time to check status of package(s). Use the following format, HH:MM:SS")
             (h, m, s) = user_time.split(":")
+            # TODO Change this function
             convert_timedelta = datetime.timedelta(hours=int(h), minutes=int(m), seconds=int(s))
             # The user will be asked if they want to see the status of all packages or only one
             second_input = input("To view the status of an individual package please type 'solo'. For a rundown of all"
