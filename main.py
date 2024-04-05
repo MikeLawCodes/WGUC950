@@ -62,11 +62,14 @@ third_truck.departure_time = min(first_truck.curr_time, second_truck.curr_time)
 package_delivery(third_truck)
 
 
+# TODO Reformat the main class for better UX
+# TODO add truck ID onto chart and package object
+
 class Main:
     # User Interface
     # Upon running the program, the below message will appear.
     print("Western Governors University Parcel Service (WGUPS)")
-    print("The mileage for the route is:")
+    print("The mileage for the route is: ")
     print(first_truck.mileage + second_truck.mileage + third_truck.mileage)  # Print total mileage for all trucks
     # The user will be asked to start the process by entering the word "time"
     text = input("To start please type the word 'time' (All else will cause the program to quit).")
@@ -74,13 +77,13 @@ class Main:
     if text == "time":
         try:
             # The user will be asked to enter a specific time
-            user_time = input("Please enter a time to check status of package(s). Use the following format, HH:MM:SS")
+            user_time = input("Please enter a time to check status of package(s). Use the following format, HH:MM:SS ")
             (h, m, s) = user_time.split(":")
             # TODO Change this function
             convert_timedelta = datetime.timedelta(hours=int(h), minutes=int(m), seconds=int(s))
             # The user will be asked if they want to see the status of all packages or only one
             second_input = input("To view the status of an individual package please type 'solo'. For a rundown of all"
-                                 " packages please type 'all'.")
+                                 " packages please type 'all' ")
             # If the user enters "solo" the program will ask for one package ID
             if second_input == "solo":
                 try:
@@ -95,9 +98,19 @@ class Main:
             # If the user types "all" the program will display all package information at once
             elif second_input == "all":
                 try:
+                    print("------------------------------------------------------------------------------"
+                          "------------------------------------------------------------------------------")
+                    print("WESTERN GOVERNORS UNIVERSITY PARCEL SERVICE ")
+                    print("------------------------------------------------------------------------------"
+                          "------------------------------------------------------------------------------")
+                    print(f"{'Package ID':11} | {'Delivery Address':39} | {'City':16} | {'State':6} "
+                          f"| {'Zip':5} | {'Deadline':9} | {'Kilos':6} | {'Status':10} "
+                          f"| {'Departure Time':15} | {'Arrival Time':12}")
                     for packageID in range(1, 41):
                         package = package_hash_table.lookup(packageID)
                         package.update_status(convert_timedelta)
+                        print("------------------------------------------------------------------------------"
+                              "------------------------------------------------------------------------------")
                         print(str(package))
                 except ValueError:
                     print("Entry invalid. Closing program.")

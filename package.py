@@ -13,15 +13,14 @@ class Package:
         self.kilos = kilos
         self.status = ShippingStatus.AT_HUB
         self.departure_time = None
-        self.in_transit_time = None
         self.arrival_time = None
 
     # function for formatting the packages_on_truck object as strings
     def __str__(self):
-        return "%s, %s, %s, %s, %s, %s, %s, %s, %s %s %s" % (
-            self.package_id, self.package_address, self.city, self.state, self.zipcode,
-            self.deadline, self.kilos, self.status.name, self.departure_time, self.in_transit_time,
-            self.arrival_time,)
+        return "%s | %s | %s | %s | %s | %s | %s | %s | %s | %s " % (
+            f'{self.package_id:11}', f'{self.package_address:39}', f'{self.city:16}', f'{self.state:6}',
+            f'{self.zipcode:5}', f'{self.deadline:9}', f'{self.kilos:6}', f'{self.status.name:10}',
+            f'{str(self.departure_time):15}', f'{str(self.arrival_time):12}')
 
     def update_status(self, convert_timedelta):
         if self.arrival_time < convert_timedelta:
