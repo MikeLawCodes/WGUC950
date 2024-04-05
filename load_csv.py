@@ -33,10 +33,11 @@ def load_package_data(filename, package_hash_table):
             deadline = package[5]
             weight_kilos = package[6]
             status = ShippingStatus.AT_HUB
+            notes = str(package[7])
 
             # Creates packages_on_truck object
             p = Package(package_id, package_address, city, state, zipcode, deadline,
-                        weight_kilos, status.name)
+                        weight_kilos, status.name, notes)
 
             # inserts packages_on_truck objects into hashtable
             package_hash_table.insert(package_id, p)

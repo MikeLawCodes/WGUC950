@@ -14,22 +14,14 @@ distance_data = load_distance_data()
 package_hash_table = HashTable()
 load_package_data("data/Packages.csv", package_hash_table)
 
-# TODO Delete this test code when finished with project
-# print(package_hash_table.lookup('1'))
-#
-# print(address_data)
-#
-# print(get_distance(2, 6))
-# print(get_distance("1330 2100 S", "2010 W 500 S"))
-# print(get_distance("2010 W 500 S", "1330 2100 S"))
-
-first_truck = truck.Truck(1, datetime.timedelta(hours=8))
+# Create truck objects and load them with packages according to restrictions
+first_truck = truck.Truck("Truck 1", datetime.timedelta(hours=8))
 first_truck.packages_on_truck = [13, 14, 15, 16, 19, 20, 29, 30, 31, 34, 35, 37, 40]
 
-second_truck = truck.Truck(2, datetime.timedelta(hours=10, minutes=20))
+second_truck = truck.Truck("Truck 2", datetime.timedelta(hours=10, minutes=20))
 second_truck.packages_on_truck = [2, 3, 12, 17, 18, 21, 22, 23, 24, 28, 32, 36, 38, 39]
 
-third_truck = truck.Truck(3, datetime.timedelta(hours=9, minutes=5))
+third_truck = truck.Truck("Truck 3", datetime.timedelta(hours=9, minutes=5))
 third_truck.packages_on_truck = [1, 4, 5, 6, 7, 8, 9, 10, 11, 25, 26, 27, 28, 33, 35]
 
 
@@ -37,12 +29,16 @@ def package_delivery(truck_object):
     not_delivered = []
     for package_id in truck_object.packages_on_truck:
         package = package_hash_table.lookup(package_id)
-        # print(package)
+        if package_id == 9:
+            package.package_address = "410 S State St"
+            package.city = "Salt Lake City"
+            package.zipcode = "84111"
+        package.truck_id = truck_object.truck_id
         not_delivered.append(package)
     truck_object.packages_on_truck.clear()
 
     while len(not_delivered) > 0:
-        # using min function with key parameter to get the package with smaller distance.
+        # using min function with key parameter to get the package with smaller distance
         next_package = min(not_delivered,
                            key=lambda package: get_distance(truck_object.truck_address, package.package_address))
         next_address = get_distance(truck_object.truck_address, next_package.package_address)
@@ -63,14 +59,23 @@ package_delivery(third_truck)
 
 
 # TODO Reformat the main class for better UX
-# TODO add truck ID onto chart and package object
+# TODO Fix Address package 9
 
 class Main:
     # User Interface
     # Upon running the program, the below message will appear.
+    print("----------------------------------------------------------------------------------------"
+          "----------------------------------------------------------------------------------------"
+          "------------------------------------------------------------")
     print("Western Governors University Parcel Service (WGUPS)")
+    print("----------------------------------------------------------------------------------------"
+          "----------------------------------------------------------------------------------------"
+          "------------------------------------------------------------")
     print("The mileage for the route is: ")
     print(first_truck.mileage + second_truck.mileage + third_truck.mileage)  # Print total mileage for all trucks
+    print("----------------------------------------------------------------------------------------"
+          "----------------------------------------------------------------------------------------"
+          "------------------------------------------------------------")
     # The user will be asked to start the process by entering the word "time"
     text = input("To start please type the word 'time' (All else will cause the program to quit).")
     # If the user doesn't type "leave" the program will ask for a specific time in regard to checking packages
@@ -91,26 +96,35 @@ class Main:
                     solo_input = input("Enter the numeric package ID")
                     package = package_hash_table.lookup(int(solo_input))
                     package.update_status(convert_timedelta)
+                    print("----------------------------------------------------------------------------------------"
+                          "----------------------------------------------------------------------------------------"
+                          "------------------------------------------------------------")
                     print(str(package))
+                    print("----------------------------------------------------------------------------------------"
+                          "----------------------------------------------------------------------------------------"
+                          "------------------------------------------------------------")
                 except ValueError:
                     print("Entry invalid. Closing program.")
                     exit()
             # If the user types "all" the program will display all package information at once
             elif second_input == "all":
                 try:
-                    print("------------------------------------------------------------------------------"
-                          "------------------------------------------------------------------------------")
+                    print("----------------------------------------------------------------------------------------"
+                          "----------------------------------------------------------------------------------------"
+                          "------------------------------------------------------------")
                     print("WESTERN GOVERNORS UNIVERSITY PARCEL SERVICE ")
-                    print("------------------------------------------------------------------------------"
-                          "------------------------------------------------------------------------------")
+                    print("----------------------------------------------------------------------------------------"
+                          "----------------------------------------------------------------------------------------"
+                          "------------------------------------------------------------")
                     print(f"{'Package ID':11} | {'Delivery Address':39} | {'City':16} | {'State':6} "
-                          f"| {'Zip':5} | {'Deadline':9} | {'Kilos':6} | {'Status':10} "
-                          f"| {'Departure Time':15} | {'Arrival Time':12}")
+                          f"| {'Zip':5} | {'Deadline':9} | {'Kilos':6} | {'Truck ID':9} | {'Status':10} "
+                          f"| {'Departure Time':15} | {'Arrival Time':12} | {'Special Notes':59}")
                     for packageID in range(1, 41):
                         package = package_hash_table.lookup(packageID)
                         package.update_status(convert_timedelta)
-                        print("------------------------------------------------------------------------------"
-                              "------------------------------------------------------------------------------")
+                        print("----------------------------------------------------------------------------------------"
+                              "----------------------------------------------------------------------------------------"
+                              "------------------------------------------------------------")
                         print(str(package))
                 except ValueError:
                     print("Entry invalid. Closing program.")
