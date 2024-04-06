@@ -59,43 +59,52 @@ package_delivery(third_truck)
 
 
 # TODO Reformat the main class for better UX
-# TODO Fix Address package 9
 
 class Main:
     # User Interface
-    # Upon running the program, the below message will appear.
     print("----------------------------------------------------------------------------------------"
           "----------------------------------------------------------------------------------------"
           "------------------------------------------------------------")
-    print("Western Governors University Parcel Service (WGUPS)")
+    print("WESTERN GOVERNORS UNIVERSITY PARCEL SERVICE ")
     print("----------------------------------------------------------------------------------------"
           "----------------------------------------------------------------------------------------"
           "------------------------------------------------------------")
-    print("The mileage for the route is: ")
-    print(first_truck.mileage + second_truck.mileage + third_truck.mileage)  # Print total mileage for all trucks
+    print(f"{'Package ID':11} | {'Delivery Address':39} | {'City':16} | {'State':6} "
+          f"| {'Zip':5} | {'Deadline':9} | {'Kilos':6} | {'Truck ID':9} | {'Status':10} "
+          f"| {'Departure Time':15} | {'Arrival Time':12} | {'Special Notes':59}")
+    EOD = datetime.timedelta(hours=24, minutes=59)
+    for packageID in range(1, 41):
+        package = package_hash_table.lookup(packageID)
+        package.update_status(EOD)
+        print("----------------------------------------------------------------------------------------"
+              "----------------------------------------------------------------------------------------"
+              "------------------------------------------------------------")
+        print(str(package))
+        print("----------------------------------------------------------------------------------------"
+              "----------------------------------------------------------------------------------------"
+              "------------------------------------------------------------")
+    print("The above chart displays all package statuses at end-of-day (EOD)\n")
+    print("The total mileage for the route is:\n")
+    print(first_truck.mileage + second_truck.mileage + third_truck.mileage)
     print("----------------------------------------------------------------------------------------"
           "----------------------------------------------------------------------------------------"
           "------------------------------------------------------------")
-    # The user will be asked to start the process by entering the word "time"
-    text = input("To start please type the word 'time' (All else will cause the program to quit).")
-    # If the user doesn't type "leave" the program will ask for a specific time in regard to checking packages
-    if text == "time":
+    user_input = input("To check status at specific time type [Y] for yes or [N] for no and to exit the program\n")
+    if user_input == "Y":
         try:
-            # The user will be asked to enter a specific time
-            user_time = input("Please enter a time to check status of package(s). Use the following format, HH:MM:SS ")
+            user_time = input("Please enter a time to check status of package(s). Use the following format, HH:MM:SS\n")
             (h, m, s) = user_time.split(":")
-            # TODO Change this function
-            convert_timedelta = datetime.timedelta(hours=int(h), minutes=int(m), seconds=int(s))
+            converted_time_input = datetime.timedelta(hours=int(h), minutes=int(m), seconds=int(s))
             # The user will be asked if they want to see the status of all packages or only one
-            second_input = input("To view the status of an individual package please type 'solo'. For a rundown of all"
-                                 " packages please type 'all' ")
+            user_input = input("To view the status of an individual package please type 'solo'. For a rundown of all"
+                               " packages please type 'all' ")
             # If the user enters "solo" the program will ask for one package ID
-            if second_input == "solo":
+            if user_input == "solo":
                 try:
                     # The user will be asked to input a package ID. Invalid entry will cause the program to quit
-                    solo_input = input("Enter the numeric package ID")
+                    solo_input = input("Please enter Package ID number\n")
                     package = package_hash_table.lookup(int(solo_input))
-                    package.update_status(convert_timedelta)
+                    package.update_status(converted_time_input)
                     print("----------------------------------------------------------------------------------------"
                           "----------------------------------------------------------------------------------------"
                           "------------------------------------------------------------")
@@ -107,7 +116,7 @@ class Main:
                     print("Entry invalid. Closing program.")
                     exit()
             # If the user types "all" the program will display all package information at once
-            elif second_input == "all":
+            elif user_input == "all":
                 try:
                     print("----------------------------------------------------------------------------------------"
                           "----------------------------------------------------------------------------------------"
@@ -121,7 +130,7 @@ class Main:
                           f"| {'Departure Time':15} | {'Arrival Time':12} | {'Special Notes':59}")
                     for packageID in range(1, 41):
                         package = package_hash_table.lookup(packageID)
-                        package.update_status(convert_timedelta)
+                        package.update_status(converted_time_input)
                         print("----------------------------------------------------------------------------------------"
                               "----------------------------------------------------------------------------------------"
                               "------------------------------------------------------------")
@@ -134,6 +143,6 @@ class Main:
         except ValueError:
             print("Entry invalid. Closing program.")
             exit()
-    elif input != "time":
-        print("Entry invalid. Closing program.")
+    elif input != "N":
+        print("Program Closed.\nThank you for using WGUPS.")
         exit()
