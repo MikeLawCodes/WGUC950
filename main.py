@@ -73,7 +73,7 @@ class Main:
           f"| {'Zip':5} | {'Deadline':9} | {'Kilos':6} | {'Truck ID':9} | {'Status':10} "
           f"| {'Departure Time':15} | {'Arrival Time':12} | {'Special Notes':59}")
     EOD = datetime.timedelta(hours=24, minutes=59)
-    for packageID in range(1, 41):
+    for packageID in range(1, 40):
         package = package_hash_table.lookup(packageID)
         package.update_status(EOD)
         print("----------------------------------------------------------------------------------------"
@@ -102,8 +102,8 @@ class Main:
             if user_input == "solo":
                 try:
                     # The user will be asked to input a package ID. Invalid entry will cause the program to quit
-                    solo_input = input("Please enter Package ID number\n")
-                    package = package_hash_table.lookup(int(solo_input))
+                    package_id_request = input("Please enter Package ID number\n")
+                    package = package_hash_table.lookup(int(package_id_request))
                     package.update_status(converted_time_input)
                     print("----------------------------------------------------------------------------------------"
                           "----------------------------------------------------------------------------------------"
@@ -128,7 +128,7 @@ class Main:
                     print(f"{'Package ID':11} | {'Delivery Address':39} | {'City':16} | {'State':6} "
                           f"| {'Zip':5} | {'Deadline':9} | {'Kilos':6} | {'Truck ID':9} | {'Status':10} "
                           f"| {'Departure Time':15} | {'Arrival Time':12} | {'Special Notes':59}")
-                    for packageID in range(1, 41):
+                    for packageID in range(1, 40):
                         package = package_hash_table.lookup(packageID)
                         package.update_status(converted_time_input)
                         print("----------------------------------------------------------------------------------------"
