@@ -19,10 +19,10 @@ first_truck = truck.Truck("Truck 1", datetime.timedelta(hours=8))
 first_truck.packages_on_truck = [13, 14, 15, 16, 19, 20, 29, 30, 31, 34, 35, 37, 40]
 
 second_truck = truck.Truck("Truck 2", datetime.timedelta(hours=10, minutes=20))
-second_truck.packages_on_truck = [2, 3, 12, 17, 18, 21, 22, 23, 24, 28, 32, 36, 38, 39]
+second_truck.packages_on_truck = [2, 3, 9, 12, 17, 18, 21, 22, 23, 24, 28, 32, 36, 38, 39]
 
 third_truck = truck.Truck("Truck 3", datetime.timedelta(hours=9, minutes=5))
-third_truck.packages_on_truck = [1, 4, 5, 6, 7, 8, 9, 10, 11, 25, 26, 27, 28, 33, 35]
+third_truck.packages_on_truck = [1, 4, 5, 6, 7, 8, 10, 11, 25, 26, 27, 28, 33, 35]
 
 
 def package_delivery(truck_object):
@@ -58,8 +58,6 @@ third_truck.departure_time = min(first_truck.curr_time, second_truck.curr_time)
 package_delivery(third_truck)
 
 
-# TODO Reformat the main class for better UX
-
 class Main:
     # User Interface
     print("----------------------------------------------------------------------------------------"
@@ -89,20 +87,18 @@ class Main:
     print("----------------------------------------------------------------------------------------"
           "----------------------------------------------------------------------------------------"
           "------------------------------------------------------------")
-    user_input = input("To check status at specific time type [Y] for yes or [N] for no and to exit the program\n")
+    user_input = input("To check status at specific time, type [Y] for yes or [N] for no and to exit the program\n")
     if user_input == "Y":
         try:
-            user_time = input("Please enter a time to check status of package(s). Use the following format, HH:MM:SS\n")
-            (h, m, s) = user_time.split(":")
-            converted_time_input = datetime.timedelta(hours=int(h), minutes=int(m), seconds=int(s))
-            # The user will be asked if they want to see the status of all packages or only one
-            user_input = input("To view the status of an individual package please type 'solo'. For a rundown of all"
-                               " packages please type 'all' ")
+            user_time = input("Enter a time in HH:MM:SS format\n")
+            (hour, minute, second) = user_time.split(":")  # splits the users input into usable variables
+            converted_time_input = datetime.timedelta(hours=int(hour), minutes=int(minute), seconds=int(second))
+            user_input = input("To view an individual package's status, type the package ID [1-40],\n"
+                               "or type [ALL] to view all package statuses\n")
             # If the user enters "solo" the program will ask for one package ID
-            if user_input == "solo":
+            if user_input.isdigit() and int(user_input) in range(1, 40):
                 try:
-                    # The user will be asked to input a package ID. Invalid entry will cause the program to quit
-                    package_id_request = input("Please enter Package ID number\n")
+                    package_id_request = user_input
                     package = package_hash_table.lookup(int(package_id_request))
                     package.update_status(converted_time_input)
                     print("----------------------------------------------------------------------------------------"
@@ -113,10 +109,10 @@ class Main:
                           "----------------------------------------------------------------------------------------"
                           "------------------------------------------------------------")
                 except ValueError:
-                    print("Entry invalid. Closing program.")
+                    print("Invalid Input. Please rerun the program and enter an integer within range (1-40)\n")
                     exit()
             # If the user types "all" the program will display all package information at once
-            elif user_input == "all":
+            elif user_input == "ALL":
                 try:
                     print("----------------------------------------------------------------------------------------"
                           "----------------------------------------------------------------------------------------"
@@ -128,20 +124,21 @@ class Main:
                     print(f"{'Package ID':11} | {'Delivery Address':39} | {'City':16} | {'State':6} "
                           f"| {'Zip':5} | {'Deadline':9} | {'Kilos':6} | {'Truck ID':9} | {'Status':10} "
                           f"| {'Departure Time':15} | {'Arrival Time':12} | {'Special Notes':59}")
-                    for packageID in range(1, 40):
-                        package = package_hash_table.lookup(packageID)
+                    for package_id in range(1, 40):
+                        package = package_hash_table.lookup(package_id)
                         package.update_status(converted_time_input)
                         print("----------------------------------------------------------------------------------------"
                               "----------------------------------------------------------------------------------------"
                               "------------------------------------------------------------")
                         print(str(package))
                 except ValueError:
-                    print("Entry invalid. Closing program.")
+                    print("Please note, input is case sensitive. Please rerun the program and "
+                          "type [ALL] to view all package statuses\n")
                     exit()
             else:
                 exit()
         except ValueError:
-            print("Entry invalid. Closing program.")
+            print("Invalid Time. Please rerun program and enter a valid time in HH:MM:SS format\n")
             exit()
     elif input != "N":
         print("Program Closed.\nThank you for using WGUPS.")

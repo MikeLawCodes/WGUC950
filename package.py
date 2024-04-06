@@ -28,7 +28,7 @@ class Package:
         if self.arrival_time < convert_timedelta:
             self.status = ShippingStatus.DELIVERED
         elif self.departure_time > convert_timedelta:
-            self.status = ShippingStatus.ON_TRUCK
+            self.status = ShippingStatus.EN_ROUTE
         else:
             self.status = ShippingStatus.AT_HUB
 
@@ -36,5 +36,5 @@ class Package:
 # enumeration for packages_on_truck status
 class ShippingStatus(Enum):
     DELIVERED = "DELIVERED"
-    ON_TRUCK = "ON_TRUCK"
+    EN_ROUTE = "EN_ROUTE"
     AT_HUB = "AT_HUB"
