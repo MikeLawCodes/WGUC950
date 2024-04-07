@@ -24,10 +24,10 @@ class Package:
             f'{self.zipcode:5}', f'{self.deadline:9}', f'{self.kilos:6}', f'{self.truck_id:9}', f'{self.status.name:10}',
             f'{str(self.departure_time):15}', f'{str(self.arrival_time):12}', f'{self.notes:59}')
 
-    def update_status(self, convert_timedelta):
-        if self.arrival_time < convert_timedelta:
+    def update_status(self, converted_time_input):
+        if self.arrival_time < converted_time_input:
             self.status = ShippingStatus.DELIVERED
-        elif self.departure_time > convert_timedelta:
+        elif self.departure_time > converted_time_input:
             self.status = ShippingStatus.EN_ROUTE
         else:
             self.status = ShippingStatus.AT_HUB
