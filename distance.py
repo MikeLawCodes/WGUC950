@@ -4,7 +4,7 @@ address_data = load_address_data()
 distance_data = load_distance_data()
 
 
-# method for returning the index of an address
+# Method for returning the index of an address. Called in following function to ensure proper data retrieval
 def get_address_index(address):
     for row in address_data:
         if address in row[2]:
@@ -12,7 +12,8 @@ def get_address_index(address):
     raise ValueError(f"Address {address} was not found in address_data")
 
 
-# method for getting the distance between two addresses using either their address string or index
+# Method for getting the distance between two addresses using either their address string or index.
+# Will be called in main.py in the package_delivery function
 def get_distance(address_x, address_y):
     if isinstance(address_x, str):
         index_x = int(get_address_index(address_x))

@@ -1,7 +1,7 @@
 # Creating a Class for the trucks
 
 class Truck:
-    def __init__(self, truck_id, start_time):
+    def __init__(self, truck_id, start_time):  # Constructor function for Truck class
         self.truck_id = truck_id
         self.capacity = 16
         self.speed = 18
