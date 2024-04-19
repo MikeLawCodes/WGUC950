@@ -19,7 +19,7 @@ first_truck = truck.Truck("Truck 1", datetime.timedelta(hours=8))
 # List of package ID's to be loaded onto the first truck.
 first_truck.packages_on_truck = [13, 14, 15, 16, 19, 20, 29, 30, 31, 34, 35, 37, 40]
 
-second_truck = truck.Truck("Truck 2", datetime.timedelta(hours=10, minutes=10))
+second_truck = truck.Truck("Truck 2", datetime.timedelta(hours=10, minutes=20))
 # List of package ID's to be loaded onto the second truck.
 second_truck.packages_on_truck = [2, 3, 9, 12, 17, 18, 21, 22, 23, 24, 28, 32, 36, 38, 39]
 
@@ -56,10 +56,33 @@ def package_delivery(truck_object):
         next_package.departure_time = truck_object.departure_time
 
 
-package_delivery(first_truck)
-package_delivery(second_truck)
-third_truck.departure_time = min(first_truck.curr_time, second_truck.curr_time)
-package_delivery(third_truck)
+# Then you will have a "main loop" which will simulate the deliveries
+current_time = datetime.timedelta(hours=0)
+end_time = datetime.timedelta(hours=24)
+
+while current_time < end_time:
+    if current_time >= first_truck.departure_time:
+        package_delivery(first_truck)
+        first_truck.departure_time = datetime.timedelta(
+            days=1)  # It will ensure that this block won't be executed again
+
+    if current_time >= second_truck.departure_time:
+        package_delivery(second_truck)
+        second_truck.departure_time = datetime.timedelta(
+            days=1)  # It will ensure that this block won't be executed again
+
+    if current_time >= third_truck.departure_time:
+        package_delivery(third_truck)
+        third_truck.departure_time = datetime.timedelta(
+            days=1)  # It will ensure that this block won't be executed again
+
+    current_time += datetime.timedelta(
+        minutes=1)
+
+# package_delivery(first_truck)
+# package_delivery(second_truck)
+# third_truck.departure_time = min(first_truck.curr_time, second_truck.curr_time)
+# package_delivery(third_truck)
 
 
 class Main:
