@@ -23,7 +23,7 @@ class Package:
             f'{self.zipcode:5}', f'{self.deadline:9}', f'{self.kilos:6}', f'{self.truck_id:9}', f'{self.status.name:10}',
             f'{str(self.departure_time):15}', f'{str(self.arrival_time):12}', f'{self.notes:59}')
 
-    # Function to check the packages status based on convereted time input.
+    # Function to check the packages status based on converted time input.
     def update_status(self, converted_time_input):
         if self.arrival_time < converted_time_input:
             self.status = ShippingStatus.DELIVERED
