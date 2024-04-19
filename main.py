@@ -19,7 +19,7 @@ first_truck = truck.Truck("Truck 1", datetime.timedelta(hours=8))
 # List of package ID's to be loaded onto the first truck.
 first_truck.packages_on_truck = [13, 14, 15, 16, 19, 20, 29, 30, 31, 34, 35, 37, 40]
 
-second_truck = truck.Truck("Truck 2", datetime.timedelta(hours=10, minutes=20))
+second_truck = truck.Truck("Truck 2", datetime.timedelta(hours=10, minutes=10))
 # List of package ID's to be loaded onto the second truck.
 second_truck.packages_on_truck = [2, 3, 9, 12, 17, 18, 21, 22, 23, 24, 28, 32, 36, 38, 39]
 
@@ -32,7 +32,8 @@ def package_delivery(truck_object):
     not_delivered = []
     for package_id in truck_object.packages_on_truck:
         package = package_hash_table.lookup(package_id)
-        if package_id == 9:
+        # Checks the time for wrong address update
+        if package_id == 9 and truck_object.curr_time >= datetime.timedelta(hours=10, minutes=20):
             package.package_address = "410 S State St"
             package.city = "Salt Lake City"
             package.zipcode = "84111"
