@@ -33,10 +33,10 @@ def package_delivery(truck_object):
     for package_id in truck_object.packages_on_truck:
         package = package_hash_table.lookup(package_id)
         # Checks the time for wrong address update
-        if package_id == 9 and truck_object.curr_time >= datetime.timedelta(hours=10, minutes=20):
-            package.package_address = "410 S State St"
-            package.city = "Salt Lake City"
-            package.zipcode = "84111"
+        # if package_id == 9 and truck_object.curr_time >= datetime.timedelta(hours=10, minutes=20):
+        #     package.package_address = "410 S State St"
+        #     package.city = "Salt Lake City"
+        #     package.zipcode = "84111"
         package.truck_id = truck_object.truck_id
         not_delivered.append(package)
     truck_object.packages_on_truck.clear()
@@ -59,30 +59,30 @@ def package_delivery(truck_object):
 # Then you will have a "main loop" which will simulate the deliveries
 current_time = datetime.timedelta(hours=0)
 end_time = datetime.timedelta(hours=24)
+#
+# while current_time < end_time:
+#     if current_time >= first_truck.departure_time:
+#         package_delivery(first_truck)
+#         first_truck.departure_time = datetime.timedelta(
+#             days=1)  # It will ensure that this block won't be executed again
+#
+#     if current_time >= second_truck.departure_time:
+#         package_delivery(second_truck)
+#         second_truck.departure_time = datetime.timedelta(
+#             days=1)  # It will ensure that this block won't be executed again
+#
+#     if current_time >= third_truck.departure_time:
+#         package_delivery(third_truck)
+#         third_truck.departure_time = datetime.timedelta(
+#             days=1)  # It will ensure that this block won't be executed again
+#
+#     current_time += datetime.timedelta(
+#         minutes=1)
 
-while current_time < end_time:
-    if current_time >= first_truck.departure_time:
-        package_delivery(first_truck)
-        first_truck.departure_time = datetime.timedelta(
-            days=1)  # It will ensure that this block won't be executed again
-
-    if current_time >= second_truck.departure_time:
-        package_delivery(second_truck)
-        second_truck.departure_time = datetime.timedelta(
-            days=1)  # It will ensure that this block won't be executed again
-
-    if current_time >= third_truck.departure_time:
-        package_delivery(third_truck)
-        third_truck.departure_time = datetime.timedelta(
-            days=1)  # It will ensure that this block won't be executed again
-
-    current_time += datetime.timedelta(
-        minutes=1)
-
-# package_delivery(first_truck)
-# package_delivery(second_truck)
-# third_truck.departure_time = min(first_truck.curr_time, second_truck.curr_time)
-# package_delivery(third_truck)
+package_delivery(first_truck)
+package_delivery(second_truck)
+third_truck.departure_time = min(first_truck.curr_time, second_truck.curr_time)
+package_delivery(third_truck)
 
 
 class Main:
@@ -98,9 +98,13 @@ class Main:
           f"| {'Zip':5} | {'Deadline':9} | {'Kilos':6} | {'Truck ID':9} | {'Status':10} "
           f"| {'Departure Time':15} | {'Arrival Time':12} | {'Special Notes':59}")
     EOD = datetime.timedelta(hours=24, minutes=59)
-    for packageID in range(1, 40):
-        package = package_hash_table.lookup(packageID)
+    for package_id in range(1, 40):
+        package = package_hash_table.lookup(package_id)
         package.update_status(EOD)
+        if package_id == 9:
+            package.package_address = "410 S State St"
+            package.city = "Salt Lake City"
+            package.zipcode = "84111"
         print("----------------------------------------------------------------------------------------"
               "----------------------------------------------------------------------------------------"
               "------------------------------------------------------------")
@@ -122,11 +126,20 @@ class Main:
             converted_time_input = datetime.timedelta(hours=int(hour), minutes=int(minute), seconds=int(second))
             user_input = input("To view an individual package's status, type the package ID [1-40],\n"
                                "or type [ALL] to view all package statuses\n")
-            # If the user enters "solo" the program will ask for one package ID
+            # If the user enters an integer 1-40, the program will use the lookup function for that package_id at
+            # the time previously requested.
             if user_input.isdigit() and int(user_input) in range(1, 40):
                 try:
                     package_id_request = user_input
                     package = package_hash_table.lookup(int(package_id_request))
+                    if package.package_id == 9 and converted_time_input >= datetime.timedelta(hours=10, minutes=20):
+                        package.package_address = "410 S State St"
+                        package.city = "Salt Lake City"
+                        package.zipcode = "84111"
+                    elif package.package_id == 9 and converted_time_input <= datetime.timedelta(hours=10, minutes=20):
+                        package.package_address = "300 S State St"
+                        package.city = "Salt Lake City"
+                        package.zipcode = "84103"
                     package.update_status(converted_time_input)
                     print("----------------------------------------------------------------------------------------"
                           "----------------------------------------------------------------------------------------"
@@ -138,7 +151,7 @@ class Main:
                 except ValueError:
                     print("Invalid Input. Please rerun the program and enter an integer within range (1-40)\n")
                     exit()
-            # If the user types "all" the program will display all package information at once
+            # If the user types "ALL" the program will display all package information at once
             elif user_input == "ALL":
                 try:
                     print("----------------------------------------------------------------------------------------"
