@@ -32,11 +32,6 @@ def package_delivery(truck_object):
     not_delivered = []
     for package_id in truck_object.packages_on_truck:
         package = package_hash_table.lookup(package_id)
-        # Checks the time for wrong address update
-        # if package_id == 9 and truck_object.curr_time >= datetime.timedelta(hours=10, minutes=20):
-        #     package.package_address = "410 S State St"
-        #     package.city = "Salt Lake City"
-        #     package.zipcode = "84111"
         package.truck_id = truck_object.truck_id
         not_delivered.append(package)
     truck_object.packages_on_truck.clear()
@@ -55,29 +50,6 @@ def package_delivery(truck_object):
         next_package.arrival_time = truck_object.curr_time
         next_package.departure_time = truck_object.departure_time
 
-
-# Then you will have a "main loop" which will simulate the deliveries
-current_time = datetime.timedelta(hours=0)
-end_time = datetime.timedelta(hours=24)
-#
-# while current_time < end_time:
-#     if current_time >= first_truck.departure_time:
-#         package_delivery(first_truck)
-#         first_truck.departure_time = datetime.timedelta(
-#             days=1)  # It will ensure that this block won't be executed again
-#
-#     if current_time >= second_truck.departure_time:
-#         package_delivery(second_truck)
-#         second_truck.departure_time = datetime.timedelta(
-#             days=1)  # It will ensure that this block won't be executed again
-#
-#     if current_time >= third_truck.departure_time:
-#         package_delivery(third_truck)
-#         third_truck.departure_time = datetime.timedelta(
-#             days=1)  # It will ensure that this block won't be executed again
-#
-#     current_time += datetime.timedelta(
-#         minutes=1)
 
 package_delivery(first_truck)
 package_delivery(second_truck)
