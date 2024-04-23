@@ -70,7 +70,7 @@ class Main:
           f"| {'Zip':5} | {'Deadline':9} | {'Kilos':6} | {'Truck ID':9} | {'Status':10} "
           f"| {'Departure Time':15} | {'Arrival Time':12} | {'Special Notes':59}")
     EOD = datetime.timedelta(hours=24, minutes=59)
-    for package_id in range(1, 40):
+    for package_id in range(1, 41):
         package = package_hash_table.lookup(package_id)
         package.update_status(EOD)
         if package_id == 9:
@@ -136,9 +136,18 @@ class Main:
                     print(f"{'Package ID':11} | {'Delivery Address':39} | {'City':16} | {'State':6} "
                           f"| {'Zip':5} | {'Deadline':9} | {'Kilos':6} | {'Truck ID':9} | {'Status':10} "
                           f"| {'Departure Time':15} | {'Arrival Time':12} | {'Special Notes':59}")
-                    for package_id in range(1, 40):
+                    for package_id in range(1, 41):
                         package = package_hash_table.lookup(package_id)
                         package.update_status(converted_time_input)
+                        if package.package_id == 9 and converted_time_input >= datetime.timedelta(hours=10, minutes=20):
+                            package.package_address = "410 S State St"
+                            package.city = "Salt Lake City"
+                            package.zipcode = "84111"
+                        elif package.package_id == 9 and converted_time_input <= datetime.timedelta(hours=10,
+                                                                                                    minutes=20):
+                            package.package_address = "300 S State St"
+                            package.city = "Salt Lake City"
+                            package.zipcode = "84103"
                         print("----------------------------------------------------------------------------------------"
                               "----------------------------------------------------------------------------------------"
                               "------------------------------------------------------------")
