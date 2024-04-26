@@ -91,7 +91,7 @@ class Main:
           "----------------------------------------------------------------------------------------"
           "------------------------------------------------------------")
     user_input = input("To check status at specific time, type [Y] for yes or [N] for no and to exit the program\n")
-    if user_input == "Y":
+    if user_input == "Y" or user_input == "y":
         try:
             user_time = input("Enter a time in HH:MM:SS format\n")
             (hour, minute, second) = user_time.split(":")  # splits the users input into usable variables
@@ -124,7 +124,7 @@ class Main:
                     print("Invalid Input. Please rerun the program and enter an integer within range (1-40)\n")
                     exit()
             # If the user types "ALL" the program will display all package information at once
-            elif user_input == "ALL":
+            elif user_input == "ALL" or user_input == "all":
                 try:
                     print("----------------------------------------------------------------------------------------"
                           "----------------------------------------------------------------------------------------"
@@ -153,7 +153,7 @@ class Main:
                               "------------------------------------------------------------")
                         print(str(package))
                 except ValueError:
-                    print("Please note, input is case sensitive. Please rerun the program and "
+                    print("Invalid input. Please rerun the program and "
                           "type [ALL] to view all package statuses\n")
                     exit()
             else:
@@ -161,6 +161,6 @@ class Main:
         except ValueError:
             print("Invalid Time. Please rerun program and enter a valid time in HH:MM:SS format\n")
             exit()
-    elif input != "N":
+    elif input == "N" or input == "n":
         print("Program Closed.\nThank you for using WGUPS.")
         exit()
